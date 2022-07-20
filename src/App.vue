@@ -1,58 +1,32 @@
-<style>
-input[type="file"]{
-  position: absolute;
-  top: -500px;
-}
-div.file-listing{
-  width: 200px;
-}
-span.remove-file{
-  color: red;
-  cursor: pointer;
-  float: right;
-}
-</style>
 <template>
   <div class="container" id="app">
     <div class="large-12 medium-12 small-12 cell">
       <h1>Upload a File</h1>
       <h2>Chose "XML" and "XLSX"/"XLS" files</h2>
       <label>Files
-        <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()"/>
+        <input type="file" id="files" ref="files" name="file" multiple v-on:change="handleFilesUpload()"/>
       </label>
-    </div>
-    <div class="large-12 medium-12 small-12 cell">
-      <div v-for="(file, key) in files" class="file-listing">{{ file.name }} <span class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
-    </div>
-    <br>
-    <div class="large-12 medium-12 small-12 cell">
-      <button v-on:click="addFiles()">Add Files</button>
-    </div>
-    <br>
-    <div class="large-12 medium-12 small-12 cell">
       <button v-on:click="submitFiles()">Submit</button>
     </div>
   </div>
 </template>
 <script>
+
 export default {
+  name: 'app',
   data(){
     return {
-      files: []
+      files: ''
     }
   },
   methods: {
-    addFiles(){
-      this.$refs.files.click();
-    },
     submitFiles(){
-
       let formData = new FormData();
       for( var i = 0; i < this.files.length; i++ ){
         let file = this.files[i];
         formData.append('files[' + i + ']', file);
       }
-      axios.post( '/select-files',
+      axios.post( '/multiple-files',
           formData,
           {
             headers: {
@@ -67,14 +41,19 @@ export default {
           });
     },
     handleFilesUpload(){
-      let uploadedFiles = this.$refs.files.files;
-      for( var i = 0; i < uploadedFiles.length; i++ ){
-        this.files.push( uploadedFiles[i] );
-      }
-    },
-    removeFile( key ){
-      this.files.splice( key, 1 );
+      this.files = this.$refs.files.files;
     }
   }
 }
 </script>
+
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
