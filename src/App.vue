@@ -15,12 +15,13 @@ export default {
   name: 'app',
   data() {
     return {
-      files: new FormData()
+      files: ''
     }
   },
   methods: {
     fileChange(fileList) {
-      this.files.append("file", fileList[0], fileList[0].name);
+      let formData = new FormData();
+      formData.append("file", fileList[0], fileList[0].name);
     },
     upload() {
       axios({ method: "POST", "url": "http://localhost:9000/upload", "data": this.files }).then(result => {
