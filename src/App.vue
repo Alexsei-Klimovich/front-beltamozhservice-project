@@ -4,14 +4,14 @@
       <h1>Upload a File</h1>
       <h2>Chose "XML" and "XLSX"/"XLS" files</h2>
       <label>Files
-        <input type="file" id="files" ref="files" name="file" multiple v-on:change="handleFilesUpload()"/>
+        <input type="file" name="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()"/>
       </label>
-      <button v-on:click="submitFiles()">Submit</button>
+      <button v-on:click="submitFiles()">Upload</button>
     </div>
   </div>
 </template>
 <script>
-
+import axios from "axios";
 export default {
   name: 'app',
   data(){
@@ -41,7 +41,12 @@ export default {
           });
     },
     handleFilesUpload(){
-      this.files = this.$refs.files.files;
+      axios({ method: "POST", "url": "http://localhost:9000/upload", "data": this.$refs.files.files }).then(result => {
+        console.dir(result.data);
+      }, error => {
+        console.error(error);
+      });
+      // this.files = this.$refs.files.files;
     }
   }
 }
