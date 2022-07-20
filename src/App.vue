@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <h1>Upload a File</h1>
-    <form enctype="multipart/form-data">
-      <input type="file" name="file" multiple v-on:change="fileChange($event.target.files)" />
+    <form encType="multipart/form-data">
+      <input type="file" name="file" multiple v-on:change="fileChange($event.target.files)"/>
       <button type="button" v-on:click="upload()">Upload</button>
     </form>
   </div>
@@ -15,21 +15,15 @@ export default {
   name: 'app',
   data() {
     return {
-      files: ''
+      files: new FormData()
     }
   },
   methods: {
     fileChange(fileList) {
-      let formData = new FormData();
-      for (let i = 0; i < this.files.length; i++) {
-        fileList = this.files[i];
-        formData.append("file", fileList[i]);
-      }
+      this.files.append("file", fileList[0], fileList[0].name);
     },
     upload() {
-      axios({ method: "POST",
-        "url": "http://localhost:9000/upload",
-        "data": this.files }).then(result => {
+      axios({method: "POST", "url": "http://localhost:9000/upload", "data": this.files}).then(result => {
         console.dir(result.data);
       }, error => {
         console.error(error);
