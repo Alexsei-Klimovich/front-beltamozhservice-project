@@ -26,13 +26,11 @@ export default {
         let file = this.files[i];
         formData.append('files[' + i + ']', file);
       }
-      axios.post( '/multiple-files',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }
+      axios({ method: "POST", "url": "http://localhost:9000/upload", "data": this.files }).then(result => {
+        console.dir(result.data);
+      }, error => {
+        console.error(error);
+      }
       ).then(function(){
         console.log('SUCCESS!!');
       })
@@ -41,12 +39,7 @@ export default {
           });
     },
     handleFilesUpload(){
-      axios({ method: "POST", "url": "http://localhost:9000/upload", "data": this.$refs.files.files }).then(result => {
-        console.dir(result.data);
-      }, error => {
-        console.error(error);
-      });
-      // this.files = this.$refs.files.files;
+      this.files = this.$refs.files.files;
     }
   }
 }
