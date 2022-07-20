@@ -21,14 +21,15 @@ export default {
   methods: {
     fileChange(fileList) {
       let formData = new FormData();
-      for (var i = 0; i < this.files.length; i++) {
-        let fileList = this.files[i];
-        formData.append("file", fileList[i], fileList[i].name);
+      for (let i = 0; i < this.files.length; i++) {
+        fileList = this.files[i];
+        formData.append("file", fileList[i]);
       }
-
     },
     upload() {
-      axios({ method: "POST", "url": "http://localhost:9000/upload", "data": this.files }).then(result => {
+      axios({ method: "POST",
+        "url": "http://localhost:9000/upload",
+        "data": this.files }).then(result => {
         console.dir(result.data);
       }, error => {
         console.error(error);
