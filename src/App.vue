@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Upload a File</h1>
     <form enctype="multipart/form-data">
-      <input type="file" name="file" v-on:change="fileChange($event.target.files)" />
+      <input type="file" name="file" multiple v-on:change="fileChange($event.target.files)" />
       <button type="button" v-on:click="upload()">Upload</button>
     </form>
   </div>
