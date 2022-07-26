@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
-    <h1>Beltamozhservice project</h1>
+  <div class="parent">
+    <img class="block" src="https://declarant.by/local/templates/new-main/components/bitrix/news.list/brandbook/image/logo_gor_end3.svg" alt="">
   </div>
   <div class="textcols">
     <div class="textcols-item">
       <div id="app">
         <h2>XML(XSD) files</h2>
         <form encType="multipart/form-data">
-          <input type="file" name="file" multiple="" v-on:change="fileChange($event.target.files)"/> <br>
+          <input type="file" name="file" multiple="" accept=".xml,.xsd" v-on:change="fileChange($event.target.files)"/> <br>
           <div class="form_radio_group">
             <div class="form_radio_group-item">
               <input id="radio-1" type="radio" name="radio" value="1" checked>
@@ -27,7 +27,7 @@
       <div id="app">
         <h2>Excel(XLSX) files</h2>
         <form encType="multipart/form-data">
-          <input type="file" name="file" multiple="" v-on:change="fileChange($event.target.files)"/> <br>
+          <input type="file" name="file" multiple="" accept=".xlsx,.xls" v-on:change="fileChange($event.target.files)"/> <br>
           <div class="form_radio_group">
             <div class="form_radio_group-item">
               <input id="radio-3" type="radio" name="radio" value="3" checked>
@@ -87,6 +87,17 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.block {
+  width: 60%;
+  max-width: 25%;
+  height: auto;
+  max-height: 70%;
+  display: inline-block;
+  white-space: normal;
+  vertical-align: middle;
+  text-align: left;
+  border-radius: 5px;
+}
 .textcols {
   display: flex;
   flex-direction: row;
@@ -99,7 +110,7 @@ export default {
   flex-basis: 100%;
   flex: 1;
   height: 45%;
-  background: #343a40;
+  background: #2d2d2d;
   border-radius: 5px;
   margin: 3% 3% 3% 3%;
 }
@@ -138,7 +149,7 @@ export default {
 
 /* Checked */
 .form_radio_group input[type=radio]:checked + label {
-  background: #28a745;
+  background: #fff;
 }
 
 /* Hover */
