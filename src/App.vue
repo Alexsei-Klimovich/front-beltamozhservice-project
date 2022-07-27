@@ -7,34 +7,42 @@
       <div id="app">
         <h2>XML(XSD) files</h2>
         <form encType="multipart/form-data">
-          <input type="file" name="file" multiple="" accept=".xml,.xsd" v-on:change="fileChange($event.target.files)"/> <br>
+          <input type="file" name="file" multiple="" id="files" accept=".xml,.xsd,.xsd.xml" v-on:change="fileChange($event.target.files)"/> <br>
           <div class="form_radio_group">
+            <br>
             <div class="form_radio_group-item">
-              <input id="radio-1" type="radio" name="radio" value="1" checked>
+              <input id="radio-1" type="radio" name="radio" value="data-base-xml" checked>
               <label for="radio-1">В БД</label>
             </div>
             <div class="form_radio_group-item">
-              <input id="radio-2" type="radio" name="radio" value="2">
+              <input id="radio-2" type="radio" name="radio" value="sql-scripts-xml">
               <label for="radio-2">SQL Scripts</label>
             </div>
           </div>
           <br>
-          <button type="button" ref="files" v-on:click="upload()">Upload</button>
+          <button type="button" ref="files" id="show" v-on:click="upload()">Upload</button>
         </form>
       </div>
     </div>
-    <div class="textcols-item">
+    <div class="textcols-item" id="exce"> <!-- ADD L TO ID FOR HIDE DIV -->
       <div id="app">
         <h2>Excel(XLSX) files</h2>
         <form encType="multipart/form-data">
-          <input type="file" name="file" multiple="" accept=".xlsx,.xls" v-on:change="fileChange($event.target.files)"/> <br>
+          <input type="file" name="file" id="selected-files" multiple="" accept=".xlsx,.xls" v-on:change="fileChange($event.target.files)"/> <br>
+          <div>
+            <select id="choice-selected-files">
+              <option v-for="item in items" :key="item.download()">
+                {{item.download()}}
+              </option>
+            </select>
+          </div>
           <div class="form_radio_group">
             <div class="form_radio_group-item">
-              <input id="radio-3" type="radio" name="radio" value="3" checked>
+              <input id="radio-3" type="radio" name="radio" value="data-base-xlsx" checked>
               <label for="radio-3">В БД</label>
             </div>
             <div class="form_radio_group-item">
-              <input id="radio-4" type="radio" name="radio" value="4">
+              <input id="radio-4" type="radio" name="radio" value="sql-scripts-xlsx">
               <label for="radio-4">SQL Scripts</label>
             </div>
           </div>
@@ -46,10 +54,13 @@
   </div>
 </template>
 
+
+
 <script>
 import axios from "axios";
 
 export default {
+
   name: 'app',
   data() {
     return {
@@ -61,6 +72,15 @@ export default {
       for (let i = 0; i < fileList.length; i++) {
         this.files.append("file", fileList[i], fileList[i].name);
       }
+    },
+    download() {
+      axios({method: "GET", "url": "http://localhost:9000/getFilesNames", "data": this.files}).then(result => {
+        console.dir(result.data);
+        // this.$refs.files.reset();
+        return result.data;
+      }, error => {
+        console.error(error);
+      });
     },
     upload() {
       axios({method: "POST", "url": "http://localhost:9000/upload", "data": this.files}).then(result => {
@@ -86,6 +106,9 @@ export default {
   color: #17a2b8;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+select {
+  border-radius: 3px;
 }
 .block {
   width: 60%;
