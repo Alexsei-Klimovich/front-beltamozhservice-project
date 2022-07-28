@@ -52,6 +52,30 @@
       </div>
     </div>
   </div>
+  <div>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>toStrdocId</th>
+        <th>nodeName</th>
+        <th>nodePath</th>
+        <th>parentName</th>
+        <th>parentPath</th>
+        <th>pattern</th>
+        <th>patternId</th>
+      </tr>
+      <tr v-for="tab in table" :key="tab">
+        <td>{{ tab.id }}</td>
+        <td>{{ tab.toStrdocId }}</td>
+        <td>{{ tab.nodeName }}</td>
+        <td>{{ tab.nodePath }}</td>
+        <td>{{ tab.parentName }}</td>
+        <td>{{ tab.parentPath }}</td>
+        <td>{{ tab.pattern }}</td>
+        <td>{{ tab.patternId }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 
@@ -64,6 +88,7 @@ export default {
   name: 'app',
   data() {
     return {
+      table: {},
       files: new FormData()
     }
   },
@@ -72,6 +97,10 @@ export default {
       for (let i = 0; i < fileList.length; i++) {
         this.files.append("file", fileList[i], fileList[i].name);
       }
+    },
+    getAllTags() {
+      axios.get('http://localhost:9000/getAllTags').
+      then(({data}) => (this.table = data))
     },
     download() {
       axios({method: "GET", "url": "http://localhost:9000/getFilesNames", "data": this.files}).then(result => {
@@ -106,6 +135,12 @@ export default {
   color: #17a2b8;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+table {
+  border: #2d2d2d;
+  border-width: 2px;
+  width: 80%;
+  text-align: left;
 }
 select {
   border-radius: 3px;
@@ -170,12 +205,10 @@ select {
   border-right: 1px solid #999;
 }
 
-/* Checked */
 .form_radio_group input[type=radio]:checked + label {
   background: #fff;
 }
 
-/* Hover */
 .form_radio_group label:hover {
   color: #666;
 }

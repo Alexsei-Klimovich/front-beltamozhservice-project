@@ -6,7 +6,7 @@ createApp(App).mount('#app')
 document.getElementById('excel').style.display = "none";
 document.getElementById('show').onclick = function() {
     var f = document.getElementById("files");
-    f.value == "" ? alert("Выберите файлы!!!")
+    f.value == "" ? alert("Выберите файлы!")
         : document.getElementById('excel').style.display = "";
 }
 
